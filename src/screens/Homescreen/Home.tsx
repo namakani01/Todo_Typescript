@@ -1,11 +1,15 @@
-import {View, SafeAreaView, StyleSheet, Image} from 'react-native';
+import {View, SafeAreaView, Image, TouchableOpacity} from 'react-native';
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import GenericText from '../../components/generic/genericText/genericText';
 import GenericInputbox from '../../components/generic/genericInputbox/genericInputbox';
+
+import GenericFlatList from '../../components/generic/genericFlatlist/genericFlatlist';
+
+import {styles} from './style';
 
 const Home = () => {
   return (
@@ -58,71 +62,117 @@ const Home = () => {
             placeholderTextColor="white"
             style={{
               paddingLeft: 3,
-              //   borderWidth: 2,
-              borderColor: 'black',
+              // borderWidth: 2,
+              // borderColor: 'black',
               height: 45,
-              width: '82%',
+              width: '85%',
               marginLeft: 7,
             }}
           />
         </View>
 
-        <GenericText
-          text="Progress"
-          style={{
-            color: 'white',
-            marginTop: 15,
-            marginLeft: 10,
-            fontWeight: 'bold',
-          }}
-        />
+        <View style={styles.rowcontainer}>
+          <GenericText
+            text="Progress"
+            style={{
+              color: 'white',
+              marginTop: 15,
+              marginLeft: 10,
+              fontWeight: 'bold',
+            }}
+          />
+
+          <GenericText
+            text="See All"
+            style={{
+              color: '#BA83DE',
+              marginTop: 15,
+              marginLeft: 10,
+              fontWeight: 'bold',
+            }}
+          />
+        </View>
+
+        <View style={styles.progresscontainer}>
+          <GenericText
+            text="Daily Task"
+            style={{
+              color: 'white',
+              marginTop: 10,
+              marginLeft: 10,
+              fontWeight: 'bold',
+            }}
+          />
+
+          <GenericText
+            text="2/3 Task Completed"
+            style={{
+              color: '#FFFFFFCC',
+              marginTop: 10,
+              marginLeft: 10,
+              // fontWeight: 'bold',
+            }}
+          />
+
+          <View style={styles.progressTextContainer}>
+            <GenericText
+              text="You are almost done go ahead"
+              style={{
+                color: '#FFFFFFCC',
+                // fontWeight: 'bold',
+              }}
+            />
+
+            <GenericText
+              text="66%"
+              style={{
+                color: 'white',
+                marginTop: 5,
+                // alignSelf: 'flex-end',
+                marginRight: 10,
+                fontWeight: 'bold',
+              }}
+            />
+          </View>
+
+          <View style={styles.progressBarContainer}>
+            <View style={styles.progressBar} />
+          </View>
+        </View>
+
+        <View style={styles.rowcontainer}>
+          <GenericText
+            text="Task"
+            style={{
+              color: 'white',
+              marginTop: 15,
+              marginLeft: 10,
+              fontWeight: 'bold',
+            }}
+          />
+
+          <GenericText
+            text="See All"
+            style={{
+              color: '#BA83DE',
+              marginTop: 15,
+              fontWeight: 'bold',
+            }}
+          />
+        </View>
+
+        <TouchableOpacity>
+          <LinearGradient
+            colors={['#BA83DE', '#D9D9D9']}
+            start={{x: 0, y: 1}}
+            end={{x: 1, y: 0}}
+            style={styles.plusbuttonlineargradient}>
+            <Icon style={styles.plusicon} name="plus" size={30}></Icon>
+          </LinearGradient>
+        </TouchableOpacity>
       </SafeAreaView>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
-    height: 500,
-    backgroundColor: '#020206',
-  },
-
-  textcontainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-
-  lineargardient: {
-    height: 50,
-    width: 50,
-    borderRadius: 50,
-    marginRight: 10,
-  },
-
-  imagestyle: {
-    height: 75,
-    width: 75,
-    alignSelf: 'center',
-  },
-
-  iconstyle: {
-    marginLeft: 8,
-  },
-
-  inputboxcontainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    // borderColor: 'yellow',
-    backgroundColor: '#1E1E1E',
-    borderWidth: 2,
-    height: 49,
-    borderRadius: 7,
-    marginTop: 10,
-    marginLeft: 10,
-    marginRight: 30,
-  },
-});
 
 export default Home;

@@ -6,8 +6,7 @@ type TextProps = {
   style?: object;
 };
 
-
-const GenericText = ({ text, style }: TextProps) => {
+const GenericText = ({text, style}: TextProps) => {
   return <Text style={[style]}>{text}</Text>;
 };
 
@@ -17,9 +16,11 @@ const GenericText = ({ text, style }: TextProps) => {
 //     color: 'white',
 //     fontWeight: 'bold',
 //     marginLeft: 10,
-//     borderWidth : 2 , 
+//     borderWidth : 2 ,
 //     borderColor : 'black',
 //     borderRadius : 5,
+//     textAlign : 'center'
+//     alignItems: 'center',
 //   },
 // });
 
