@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
     borderRadius: 7,
     marginTop: 10,
     marginLeft: 10,
-    marginRight: 20,
+    marginRight: 15,
   },
 
   rowcontainer: {
@@ -66,7 +66,7 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 8,
     marginLeft: 10,
-    marginRight: 20,
+    marginRight: 18,
   },
   progressTextContainer: {
     flexDirection: 'row',
@@ -86,8 +86,29 @@ export const styles = StyleSheet.create({
   progressBar: {
     height: '100%',
     backgroundColor: '#BA83DE',
-    width: '66%',
+    // width:  '70%',
     borderRadius: 8,
   },
-  buttoncontainer: {},
+  renderitemcontainer: {
+    backgroundColor: '#1F1F1F',
+    flexDirection: 'row',
+    margin: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+
+  colorcontainer: {
+    width: 20,
+    height: 50,
+    borderRadius: 5,
+    marginRight: 10,
+  },
+
+  textandcheckboxcontainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    // flex: 1,
+    width: 335,
+    // backgroundColor : 'orange'
+  },
 });

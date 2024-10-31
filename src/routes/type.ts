@@ -2,7 +2,8 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
   Home: undefined;
-  Profile: undefined;
+  Newtask: undefined;
+  Task: undefined;
 };
 
 export type HomeScreenNavigationProps = NativeStackScreenProps<
@@ -10,7 +11,12 @@ export type HomeScreenNavigationProps = NativeStackScreenProps<
   'Home'
 >;
 
-export type CrrateTaskScreenNavigationProps = NativeStackScreenProps<
+export type CreateTaskScreenNavigationProps = NativeStackScreenProps<
   RootStackParamList,
-  'Profile'
+  'Newtask'
+>;
+
+export type TaskScreenNavigationProps = NativeStackScreenProps<
+  RootStackParamList,
+  'Task'
 >;

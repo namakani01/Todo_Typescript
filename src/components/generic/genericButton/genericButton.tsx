@@ -1,11 +1,12 @@
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 type ButtonProps = {
   label?: string;
   onPress?: () => void;
   buttonstyle?: object;
   textStyle?: object;
+  children?: ReactNode;
 };
 
 const GenericButton = ({
@@ -13,9 +14,11 @@ const GenericButton = ({
   onPress,
   buttonstyle,
   textStyle,
+  children,
 }: ButtonProps) => {
   return (
     <TouchableOpacity style={[buttonstyle]} onPress={onPress}>
+      {children}
       <Text style={[textStyle]}>{label}</Text>
     </TouchableOpacity>
   );
@@ -28,7 +31,7 @@ const GenericButton = ({
 //     borderRadius: 5,
 //     alignItems: 'center',
 //     justifyContent: 'center',
-    
+
 //   },
 //   label: {
 //     color: '#FFFFFF',

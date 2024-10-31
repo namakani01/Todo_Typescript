@@ -1,23 +1,127 @@
-import {View, SafeAreaView, StyleSheet} from 'react-native';
-import React, {useState} from 'react';
+import {View, SafeAreaView, StyleSheet, Alert} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/Feather';
 import {Switch} from 'react-native';
 import GenericText from '../../components/generic/genericText/genericText';
 import GenericInputbox from '../../components/generic/genericInputbox/genericInputbox';
-import GenericCalender from '../../components/generic/genericCalender/genericCalender';
 import GenericButton from '../../components/generic/genericButton/genericButton';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import LinearGradient from 'react-native-linear-gradient';
+import CalendarStrip from 'react-native-calendar-strip';
+import {addTodo} from '../../redux/slices/TodoSlice';
+import {updateTodo} from '../../redux/slices/TodoSlice';
+import {styles} from './style';
+import {nanoid} from '@reduxjs/toolkit';
+import {useDispatch} from 'react-redux';
 
-import { styles } from './style';
+const Createtask = (props: any) => {
+  console.log(props);
 
-const Createtask = () => {
+  const item = props.route.params?.item;
+
+  // console.log('item', item);
+
+  useEffect(() => {
+    if (item) {
+      setTitle(item.title);
+      setDescription(item.description);
+      setCalendardate(item.calendardate);
+      // console.log('item', item);
+
+      setStartTime(
+        item?.startTime?.toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
+      );
+      setEndTime(
+        item?.endTime?.toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
+      );
+      // setPriority(item.priority);
+    }
+  }, [item]);
+
+  const dispatch = useDispatch();
+
+  const [calendardate, setCalendardate] = useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [priority, setPriority] = useState('');
+  const [on, setOn] = useState(false);
+
+  // console.log("title", title)
+  // console.log("desc", description)
+
   const [isTimePickerVisible, setTimePickerVisible] = useState(false);
-  const [startTime, setStartTime] = useState<Date | null>(null);
-  const [endTime, setEndTime] = useState<Date | null>(null);
+  const [startTime, setStartTime] = useState<any>(null);
+  const [endTime, setEndTime] = useState<any>(null);
   const [isStartTimeSelected, setIsStartTimeSelected] = useState(true);
 
+  // console.log(
+  //   'stime',
+  //   startTime?.toLocaleTimeString([], {
+  //     hour: '2-digit',
+  //     minute: '2-digit',
+  //   }),
+  // );
+
+  // console.log(
+  //   'etime',
+  //   endTime?.toLocaleTimeString([], {
+  //     hour: '2-digit',
+  //     minute: '2-digit',
+  //   }),
+  // );
+
+  // console.log("Priority" , priority)
+
+  // console.log('calendardate', calendardate);
+
+  const handleCreatetask = () => {
+    if (
+      title &&
+      description &&
+      calendardate &&
+      priority &&
+      startTime &&
+      endTime
+    ) {
+      const TodoObject = {
+        id: item ? item.id : nanoid(),
+        title: title,
+        description: description,
+        calendardate: calendardate,
+        startTime: startTime,
+        endTime: endTime,
+        priority: priority,
+      };
+
+      if (item) {
+        dispatch(updateTodo(TodoObject));
+      } else {
+        dispatch(addTodo(TodoObject));
+      }
+
+      setCalendardate('');
+      setTitle('');
+      setDescription('');
+      setStartTime('');
+      setEndTime('');
+      setPriority('');
+      Alert.alert(
+        item ? 'Task updated successfully' : 'Task created successfully',
+      );
+      props.navigation.navigate('Task');
+    } else {
+      Alert.alert('Please fill all the fields');
+    }
+  };
+
   const handleTimeConfirm = (time: Date) => {
+    // console.log('time -----',time)
     if (isStartTimeSelected) {
       setStartTime(time);
     } else {
@@ -29,7 +133,18 @@ const Createtask = () => {
   return (
     <View style={styles.container}>
       <SafeAreaView>
-        <GenericCalender />
+        <CalendarStrip
+          scrollable
+          calendarColor={'#181818'}
+          style={{height: 100, paddingTop: 20, paddingBottom: 10}}
+          calendarHeaderFormat="LL"
+          calendarHeaderStyle={{color: '#BA83DE'}}
+          dateNumberStyle={{color: '#FFFFFF99', marginTop: 5}}
+          dateNameStyle={{color: '#FFFFFF99'}}
+          highlightDateNumberStyle={{color: '#BA83DE', marginTop: 5}}
+          highlightDateNameStyle={{color: '#BA83DE'}}
+          onDateSelected={date => setCalendardate(date.format('DD-MM-YY'))}
+        />
 
         <View style={styles.schedulecontainer}>
           <GenericText
@@ -42,6 +157,8 @@ const Createtask = () => {
             <GenericInputbox
               text="Name"
               placeholderTextColor="white"
+              value={title}
+              onChangeText={text => setTitle(text)}
               style={{
                 color: 'white',
                 paddingLeft: 3,
@@ -55,6 +172,8 @@ const Createtask = () => {
           <View style={styles.inputboxcontainer2}>
             <GenericInputbox
               text="Description"
+              value={description}
+              onChangeText={text => setDescription(text)}
               placeholderTextColor="white"
               style={{
                 color: 'white',
@@ -92,8 +211,10 @@ const Createtask = () => {
                   setTimePickerVisible(true);
                 }}
                 label={
-                  startTime
-                    ? startTime.toLocaleTimeString([], {
+                  item?.startTime
+                    ? `${startTime}`
+                    : startTime
+                    ? startTime?.toLocaleTimeString([], {
                         hour: '2-digit',
                         minute: '2-digit',
                       })
@@ -115,8 +236,10 @@ const Createtask = () => {
                   setTimePickerVisible(true);
                 }}
                 label={
-                  endTime
-                    ? endTime.toLocaleTimeString([], {
+                  item?.endTime
+                    ? `${endTime}`
+                    : endTime
+                    ? endTime?.toLocaleTimeString([], {
                         hour: '2-digit',
                         minute: '2-digit',
                       })
@@ -141,6 +264,7 @@ const Createtask = () => {
 
           <View style={styles.insideprioritycontainer}>
             <GenericButton
+              onPress={() => setPriority('High')}
               buttonstyle={{
                 borderWidth: 2,
                 borderColor: '#FACBBA',
@@ -155,6 +279,7 @@ const Createtask = () => {
 
             <View>
               <GenericButton
+                onPress={() => setPriority('Medium')}
                 buttonstyle={{
                   borderWidth: 2,
                   borderColor: '#D7F0FF',
@@ -170,6 +295,7 @@ const Createtask = () => {
 
             <View>
               <GenericButton
+                onPress={() => setPriority('Low')}
                 buttonstyle={{
                   borderWidth: 2,
                   borderColor: '#FAD9FF',
@@ -194,15 +320,20 @@ const Createtask = () => {
               marginLeft: 15,
             }}></GenericText>
 
-          <Switch thumbColor={'#A378FF'}></Switch>
+          <Switch
+            value={on}
+            onValueChange={() => setOn(!on)}
+            trackColor={{false: '#767577', true: '#81b0ff'}}
+            thumbColor={'#A378FF'}></Switch>
         </View>
 
         <LinearGradient
           colors={['#BA83DE', '#DE83B0']}
           style={styles.lineargardient}>
           <GenericButton
+            onPress={() => handleCreatetask()}
             buttonstyle={{padding: 15}}
-            label="Create Task"
+            label={item ? 'Update' : 'Create Task'}
             textStyle={{
               color: 'white',
               textAlign: 'center',
@@ -220,6 +351,5 @@ const Createtask = () => {
     </View>
   );
 };
-
 
 export default Createtask;

@@ -19,8 +19,9 @@ const GenericText = ({text, style}: TextProps) => {
 //     borderWidth : 2 ,
 //     borderColor : 'black',
 //     borderRadius : 5,
-//     textAlign : 'center'
+//     textAlign : 'center',
 //     alignItems: 'center',
+//     position : 'absolute'
 //   },
 // });
 

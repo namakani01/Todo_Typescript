@@ -1,44 +1,30 @@
 import {FlatList, View, StyleSheet, ListRenderItemInfo} from 'react-native';
 import React from 'react';
 
-type ItemType = {
-  id: string; 
-  text: string;
-};
-
-type GenericFlatListProps = {
-  data: ItemType[];
-  renderItem: (item: ListRenderItemInfo<ItemType>) => React.ReactElement;
-  keyExtractor?: (item: ItemType) => string;
+type GenericFlatListProps<T> = {
+  data: T[];
+  renderItem: (item: ListRenderItemInfo<T>) => React.ReactElement;
+  keyExtractor?: (item: T) => string;
   style?: object;
   contentContainerStyle?: object;
 };
 
-const GenericFlatList = ({
+function GenericFlatList<T>({
   data,
   renderItem,
-  keyExtractor = item => item.id,
+  keyExtractor = item => (item as any).id,  
   style,
   contentContainerStyle,
-}: GenericFlatListProps) => {
+}: GenericFlatListProps<T>) {
   return (
     <FlatList
       data={data}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
-      style={[style]}
-      // contentContainerStyle={[styles.contentContainer, contentContainerStyle]}
+      style={style}
+      contentContainerStyle={contentContainerStyle}
     />
   );
-};
-
-// const styles = StyleSheet.create({
-//   flatList: {
-//     flex: 1,
-//   },
-//   contentContainer: {
-//     padding: 10,
-//   },
-// });
+}
 
 export default GenericFlatList;
